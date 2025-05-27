@@ -82,5 +82,5 @@ This is a Microservices Architecture (MSA) based E-commerce application built wi
 
 ## Contact
 
-For questions or contributions, please contact [Your Name] at [your.email@example.com]
+For questions or contributions, please contact Sanjna Deva at sanjnadeva830@gmail.com
 
