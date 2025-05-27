@@ -80,6 +80,10 @@ This is a Microservices Architecture (MSA) based E-commerce application built wi
 
 ---
 
+Application Structure Diagram :
+<img width="407" alt="image" src="https://github.com/user-attachments/assets/16a11cf2-416f-4873-a54a-6d281ddc276c" />
+
+
 ## Contact
 
 For questions or contributions, please contact Sanjna Deva at sanjnadeva830@gmail.com
