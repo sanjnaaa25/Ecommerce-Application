@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+  config-server:
+    image: sanjnaaax5/config-server:latest
+    ports:
+      - "8888:8888"
+    networks:
+      - microservice-network
+
+  eureka:
+    image: sanjnaaax5/eureka-service:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - microservice-network
+    depends_on:
+      - config-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+
+  api-gateway:
+    image: sanjnaaax5/api-gateway-service:latest
+    ports:
+      - "8089:8080"
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    networks:
+      - microservice-network
+
+  product-service:
+    image: sanjnaaax5/product-service:latest
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    networks:
+      - microservice-network
+
+  inventory-service:
+    image: sanjnaaax5/inventory-service:latest
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    networks:
+      - microservice-network
+
+  order-service:
+    image: sanjnaaax5/order-service:latest
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka
+      - product-service
+      - inventory-service
+      - config-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    networks:
+      - microservice-network
+
+  notification-service:
+    image: sanjnaaax5/notification-service:latest
+    ports:
+      - "8084:8084"
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: sanjnaax5/order-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082 # Or the port your Order Service runs on
+          env:
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka:8761/eureka/
+            # Environment variables for dependencies (using Kubernetes Service names)
+            # Example (adjust based on your actual configuration):
+            - name: PRODUCT_SERVICE_URL
+              value: http://product-service:8081
+            - name: INVENTORY_SERVICE_URL
+              value: http://inventory-service:8083
+          # Add other environment variables as needed
